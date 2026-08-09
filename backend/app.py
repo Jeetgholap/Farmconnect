@@ -5,13 +5,18 @@ import numpy as np
 from PIL import Image
 import json
 import io
+import os
 
 app = Flask(__name__)
 CORS(app)
 
-model = tf.keras.models.load_model('plant_model.h5')
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-with open('class_names.json', 'r') as f:
+model = tf.keras.models.load_model(
+    os.path.join(BASE_DIR, 'plant_model.h5')
+)
+
+with open(os.path.join(BASE_DIR, 'class_names.json'), 'r') as f:
     class_names = json.load(f)
 
 @app.route('/predict', methods=['POST'])
